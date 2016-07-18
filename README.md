@@ -22,6 +22,10 @@ As announced at Developer Preview 3, we’ve deferred the Launcher Shortcuts fea
 ## android.provider.Settings
 
 * ACTION_WEBVIEW_SETTINGS
+ * adb shell am start -a android.settings.WEBVIEW_SETTINGS
+ * I/ActivityManager( 4573): START u0 {act=android.settings.WEBVIEW_SETTINGS flg=0x10000000 cmp=com.android.settings/.WebViewImplementation} from uid 2000 on display 0
+ * Chrome Devとか入ってても選択肢に出ててこない
+ * 何を基準にしてるのかよくわからん...
 
 
 ## Behavior Changes
