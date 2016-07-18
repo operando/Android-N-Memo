@@ -24,11 +24,6 @@ As announced at Developer Preview 3, we’ve deferred the Launcher Shortcuts fea
 * ACTION_WEBVIEW_SETTINGS
 
 
-## Data Saver
-
-* https://developer.android.com/preview/features/data-saver.html
-
-
 ## Behavior Changes
 
 
@@ -106,6 +101,55 @@ https://developer.android.com/preview/features/multilingual-support.html
 
 ### Data Saver
 
+* https://developer.android.com/preview/features/data-saver.html
+* Data Saverの設定画面にIntentで飛べるかどうか
+ * Actioはもちろん提供されてないし、Fragmentしかないので無理そう。source公開されたら最終判断できそう
+* Data Saverのホワイトリストがどこで管理されているのか
+ * netpolicy.xml??
+ * ようわからん
+
+logとか
+
+```
+// Data SaverのFragment
+D/SubSettings( 5785): Launching fragment com.android.settings.datausage.DataSaverSummary
+
+// ホワイトリストのFragment
+D/SubSettings( 5785): Launching fragment com.android.settings.datausage.UnrestrictedDataAccess
+
+// 各アプリのdata usageのFragment
+// 下のIntentからわかるようにAppDataUsageActivityみたいに外部から呼び出される入り口もある
+D/SubSettings( 5785): Launching fragment com.android.settings.datausage.AppDataUsage
+
+// Intent(Settings.ACTION_IGNORE_BACKGROUND_DATA_RESTRICTIONS_SETTINGS, Uri.parse("package:" + getPackageName()))で呼ばれる先
+START u0 {act=android.settings.IGNORE_BACKGROUND_DATA_RESTRICTIONS_SETTINGS dat=package:com.os.operando.datasaver.sample cmp=com.android.settings/.datausage.AppDataUsageActivity} from uid 10139 on display 0
+
+
+// whitelist on
+I/NetworkPolicy( 4573): adding uid 10139 to restrict background whitelist
+
+// whitelist off
+I/NetworkPolicy( 4573): removing uid 10139 from restrict background whitelist
+
+// Data Saver on
+D/ConnectivityService( 4573): onRestrictBackgroundChanged(true): disabling tethering
+```
+
+```
+// off
+07-18 09:01:25.530 I/sysui_histogram( 5785): [datausage.DataSaverSummary/switch_bar|false,1]
+07-18 09:01:25.671 I/sysui_action( 5785): [394,0]
+
+// on
+07-18 09:02:26.371 I/sysui_action( 5785): [394,1]
+```
+
+
+### Direct Boot
+
+* https://developer.android.com/preview/features/direct-boot.html
+* Device protected storageってどこが保存先になるのか??
+
 
 ## Developer Options
 
@@ -119,3 +163,15 @@ https://developer.android.com/preview/features/multilingual-support.html
 ## android-n-preview-1 to android-n-preview-2 AOSP changelog
 
 http://www.androidpolice.com/android_aosp_changelogs/android-n-preview-1-to-android-n-preview-2-AOSP-changelog.html
+
+
+## SDK
+
+### android.text.Html
+
+https://developer.android.com/sdk/api_diff/24/changes/android.text.Html.html
+
+deprecatedになって新しいAPIが生えてる
+
+* toHtml deprecated
+* fromHtml deprecated
